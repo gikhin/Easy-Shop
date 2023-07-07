@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "960223560360",
+    "project_id": "easyshop-9d113",
+    "storage_bucket": "easyshop-9d113.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960223560360:android:f8fb73d5ee28fb32ab789d",
+        "android_client_info": {
+          "package_name": "com.example.ecommerce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "960223560360-7vqa142r40go7g8sv4be2ijvvukcomvl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzuI1wJspwVoqj4bjLP-yn4xLlEKHhOno"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "960223560360-7vqa142r40go7g8sv4be2ijvvukcomvl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
