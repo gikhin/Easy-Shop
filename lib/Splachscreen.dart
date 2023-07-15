@@ -1,52 +1,42 @@
-import 'package:ecommerce/Homepage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
-
 import 'Components/Login.dart';
 
-class Splash extends StatefulWidget {
-  const Splash({Key? key}) : super(key: key);
-
+class SplashScreen extends StatefulWidget {
   @override
-  State<Splash> createState() => _SplashState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashState extends State<Splash> {
+class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _navigateToHome();
-  }
 
-  void _navigateToHome() async {
-    await Future.delayed(Duration(milliseconds: 2000));
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
+    Timer(Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => Login()),
       );
-    }
+    });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Center(
-            child: Container(
-              child: Text(
-                'EasyShop',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFFFE6955),
-                  fontSize: 37,
-                ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Easy Shop',
+              style: TextStyle(
+                color: Color(0xFFFE6955),
+                fontWeight: FontWeight.bold,
+                fontSize: 27,
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

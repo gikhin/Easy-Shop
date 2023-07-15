@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce/Components/Login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,14 +15,25 @@ class _SignupState extends State<Signup> {
   final formKey = GlobalKey<FormState>();
   final email = TextEditingController();
   final password = TextEditingController();
+  final name = TextEditingController();
   bool _obscureText = true;
 
   Future<void> _signup() async {
     try {
+      final UserCredential userCredential =
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email.text.trim(),
         password: password.text.trim(),
       );
+
+      await FirebaseFirestore.instance
+          .collection('profile')
+          .doc(userCredential.user!.uid)
+          .set({
+        'name': name.text.trim(),
+        'email': email.text.trim(),
+      });
+
       Navigator.of(context).popUntil((route) => route.isFirst);
       Navigator.pushReplacement(
         context,
@@ -72,6 +84,40 @@ class _SignupState extends State<Signup> {
                               color: Color(0xFFFE6955),
                               fontWeight: FontWeight.bold,
                               fontSize: 25,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              bottom: 15.0,
+                              right: 15.0,
+                              left: 15.0,
+                              top: 12.0,
+                            ),
+                            child: TextFormField(
+                              controller: name,
+                              validator: (val) {
+                                if (val == null || val.isEmpty) {
+                                  return "Please Enter Your Name";
+                                }
+                                return null;
+                              },
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                              decoration: InputDecoration(
+                                filled: true,
+                                hintText: 'Enter Your Name',
+                                labelText: 'Name',
+                                hintStyle: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(100),
+                                  ),
+                                  borderSide: BorderSide.none,
+                                ),
+                              ),
                             ),
                           ),
                           Padding(

@@ -174,7 +174,7 @@ class _CartState extends State<Cart> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => OrderConfirmation(
@@ -182,15 +182,18 @@ class _CartState extends State<Cart> {
                       ),
                     ),
                   ).then((value) {
-                    // Remove the selected item from the cart
                     _removeItem(index);
                   });
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFFFE6955),
+                ),
                 child: Text(
-                  'Order Now',
+                  'Confirm Order',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
+
 
             ],
           );

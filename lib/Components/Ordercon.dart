@@ -19,7 +19,7 @@ class _OrderConfirmationState extends State<OrderConfirmation> {
       appBar: AppBar(
         iconTheme: IconThemeData(color: Color(0xFFFE6955)),
         backgroundColor: Colors.white,
-        elevation: 0, // Remove the appBar's shadow
+        elevation: 0,
         title: Text(
           'Orders',
           style: TextStyle(
@@ -77,6 +77,39 @@ class _OrderConfirmationState extends State<OrderConfirmation> {
                       'Price: \$${widget.selectedItem["price"].toStringAsFixed(2)}',
                       style: TextStyle(fontSize: 16),
                     ),
+                    SizedBox(height: 16),
+                    Text(
+                      'Your Order:',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Color(0xFFFE6955),
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    SizedBox(
+                      height: 200,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: widget.selectedItem["images"].length,
+                        itemBuilder: (context, index) {
+                          final image = widget.selectedItem["images"][index];
+                          return Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: Card(
+                              elevation: 3,
+                              child: Container(
+                                width: 200,
+                                child: Image.network(
+                                  image.toString(),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -86,7 +119,7 @@ class _OrderConfirmationState extends State<OrderConfirmation> {
                 backgroundColor: Color(0xFFFE6955),
               ),
               onPressed: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) => Payment(items: [widget.selectedItem]),
@@ -98,7 +131,6 @@ class _OrderConfirmationState extends State<OrderConfirmation> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-
           ],
         ),
       ),

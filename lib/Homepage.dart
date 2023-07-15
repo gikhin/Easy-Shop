@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:ecommerce/Components/Profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -7,6 +8,22 @@ import 'Components/Login.dart';
 import 'Components/Products.dart';
 import 'Components/Cart.dart';
 
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'E-Commerce App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: Homescreen(),
+    );
+  }
+}
 
 class Homescreen extends StatefulWidget {
   const Homescreen({Key? key}) : super(key: key);
@@ -67,13 +84,20 @@ class _HomescreenState extends State<Homescreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-          leading:  IconButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
-            FirebaseAuth.instance.signOut();
-            Fluttertoast.showToast(msg: 'User Successfully Logout');
-          }, icon: Icon(Icons.logout,color: Color(0xFFFE6955),)),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Icon(Icons.menu,color: Color(0xFFFE6955),),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
         actions: [
-          FloatingActionButton(backgroundColor: Color(0xFFFE6955),
+
+          FloatingActionButton(
+            backgroundColor: Color(0xFFFE6955),
             onPressed: () {
               Navigator.push(
                 context,
@@ -136,6 +160,41 @@ class _HomescreenState extends State<Homescreen> {
                 ),
                 overflow: TextOverflow.ellipsis,
               ),
+            ),
+          ],
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color:  Color(0xFFFE6955)
+              ),
+              child: Text(
+                'More Options',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,fontWeight: FontWeight.bold
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.person,color: Color(0xFFFE6955)),
+              title: Text('Profile'),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile()));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout,color: Color(0xFFFE6955)),
+              title: Text('Logout'),
+              onTap: () {
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login()));
+                FirebaseAuth.instance.signOut();
+                Fluttertoast.showToast(msg: 'User Successfully Logout');
+
+              },
             ),
           ],
         ),

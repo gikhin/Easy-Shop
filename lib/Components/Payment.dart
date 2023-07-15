@@ -1,12 +1,14 @@
 import 'dart:convert';
 
+import 'package:ecommerce/Components/Trackingpage.dart';
 import 'package:ecommerce/Homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Payment extends StatefulWidget {
+  final List<dynamic> items;
 
-  const Payment({Key? key, required List items}) : super(key: key);
+  const Payment({Key? key, required this.items}) : super(key: key);
 
   @override
   _PaymentState createState() => _PaymentState();
@@ -22,9 +24,15 @@ class _PaymentState extends State<Payment> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
+    final List<dynamic> items = widget.items;
+
+    double totalPrice = 0;
+    for (var item in items) {
+      totalPrice += item['price'];
+    }
+
     return MaterialApp(
       title: 'Payment Page',
       theme: ThemeData(
@@ -33,7 +41,6 @@ class _PaymentState extends State<Payment> {
       home: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-
           backgroundColor: Colors.white,
           title: Text(
             "Payment Page",
@@ -66,7 +73,8 @@ class _PaymentState extends State<Payment> {
                     leading: Container(
                       height: 50,
                       width: 50,
-                      child: Image.network('https://9to5mac.com/wp-content/uploads/sites/6/2019/03/paypal-logo.jpeg?quality=82&strip=all'),
+                      child: Image.network(
+                          'https://9to5mac.com/wp-content/uploads/sites/6/2019/03/paypal-logo.jpeg?quality=82&strip=all'),
                     ),
                   ),
                 ),
@@ -83,8 +91,9 @@ class _PaymentState extends State<Payment> {
                     leading: Container(
                       height: 50,
                       width: 50,
-                      child: Image.network('https://lh3.googleusercontent.com/lfSN8-0uxLdHSqBD9ULaZUiBRJ_9lCKK8Jq'
-                          'HGWhdgy4WjGJNYQtQ5hPbw2RBCBfEABPTqljEVA4J2J3Pr-emxqnIZu16WIt41CE7Mg'),
+                      child: Image.network(
+                          'https://lh3.googleusercontent.com/lfSN8-0uxLdHSqBD9ULaZUiBRJ_9lCKK8Jq'
+                              'HGWhdgy4WjGJNYQtQ5hPbw2RBCBfEABPTqljEVA4J2J3Pr-emxqnIZu16WIt41CE7Mg'),
                     ),
                   ),
                 ),
@@ -101,8 +110,9 @@ class _PaymentState extends State<Payment> {
                     leading: Container(
                       height: 50,
                       width: 50,
-                      child: Image.network('https://www.visa.com.vc/dam/VCOM/regional/lac/ENG/Default/Pay%20With%20Visa/Find%20a%20Card/'
-                          'Debit%20Cards/Visa%20Debit%20Gold/visagolddebit-400x225.jpg'),
+                      child: Image.network(
+                          'https://www.visa.com.vc/dam/VCOM/regional/lac/ENG/Default/Pay%20With%20Visa/Find%20a%20Card/'
+                              'Debit%20Cards/Visa%20Debit%20Gold/visagolddebit-400x225.jpg'),
                     ),
                   ),
                 ),
@@ -119,19 +129,22 @@ class _PaymentState extends State<Payment> {
                     leading: Container(
                       height: 50,
                       width: 50,
-                      child: Image.network('https://4.imimg.com/data4/RC/YR/MY-8877598/cash-on-delivery-services-500x500.jpg'),
+                      child: Image.network(
+                          'https://4.imimg.com/data4/RC/YR/MY-8877598/cash-on-delivery-services-500x500.jpg'),
                     ),
                   ),
                 ),
                 SizedBox(height: 30),
                 Text(
                   'Selected Payment Method: $selectedPaymentMethod',
-                  style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ],
-            ), SizedBox(height: 20),
-            if (product != null)
-              Row(mainAxisAlignment: MainAxisAlignment.center,
+            ),
+            SizedBox(height: 20),
+            if (items != null)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -143,7 +156,7 @@ class _PaymentState extends State<Payment> {
                     ),
                   ),
                   Text(
-                    '\$${product["price"].toString()}',
+                    '\$$totalPrice',
                     style: TextStyle(
                       color: Colors.green,
                       fontWeight: FontWeight.bold,
@@ -166,14 +179,19 @@ class _PaymentState extends State<Payment> {
                       primary: Color(0xFFFE6955),
                     ),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>Homescreen()));
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => TrackingPage(selectedItem: widget.items,)));
                     },
-                    child: Text('Done',style: TextStyle(fontWeight: FontWeight.bold),),
+                    child: Text(
+                      'Track Your Order',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),
             ),
-
           ],
         ),
       ),
